@@ -1,0 +1,26 @@
+syntax = "proto3";
+package authentication_integration;
+import "google/protobuf/empty.proto";
+
+enum OperationResult{
+    Ok = 0;
+    AccountNotFound = 1;
+    TraderNotFound = 2;
+}
+
+message GeneratePlatformRedirectUrlGrpcRequest{
+  string TraderId = 1;
+  optional string AccountId = 2;
+}
+
+message GeneratePlatformRedirectUrlGrpcResponse{
+  OperationResult Result = 1;
+  string RedirectUrl = 2;
+}
+
+
+service AuthenticationIntegrationGrpcService {
+    rpc GeneratePlatformRedirectUrl(GeneratePlatformRedirectUrlGrpcRequest) returns (GeneratePlatformRedirectUrlGrpcResponse);   
+    rpc Ping(google.protobuf.Empty) returns(google.protobuf.Empty);
+}
+

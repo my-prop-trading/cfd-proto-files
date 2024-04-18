@@ -1,0 +1,124 @@
+syntax = "proto3";
+package trading_info_integration;
+import "google/protobuf/empty.proto";
+
+enum PositionSide{
+    Buy = 0;
+    Sell = 1;
+}
+
+enum PositionCloseReason{
+    None = 0;
+    ClientCommand = 1;
+    StopOut = 2;
+    TakeProfit = 3;
+    StopLoss = 4;
+    Canceled = 5;
+    ForceClose = 6;
+}
+
+message GetActiveOrdersGrpcRequest{
+    string TraderId = 1;
+    string AccountId = 2;
+}
+
+message GetPendingOrdersGrpcRequest{
+    string TraderId = 1;
+    string AccountId = 2;
+}
+
+
+message GetHistoryGrpcRequest{
+    string TraderId = 1;
+    string AccountId = 2;
+    uint64 DateFromMicroSeconds = 3;
+    uint64 DateToMicroSeconds = 4;
+}
+
+message TradingInfoBidAskModel{
+    string Id = 1;
+    double Bid = 2;
+    double Ask = 3;
+    uint64 DateTime = 4;
+}
+
+message ActiveOrderGrpcModel{
+    string Id = 1;
+    string TraderId = 2;
+    string AccountId = 3;
+    string InstrumentId = 4;
+    double InvestAmount = 5;
+    double Leverage = 6;
+    uint64 CreateDate = 7;
+    PositionSide PositionSide = 8;
+    optional double TpInPositionPl = 9;
+    optional double TpInAssetPrice = 10;
+    optional double SlInPositionPl = 11;
+    optional double SlInAssetPrice = 12;
+    uint64 LastUpdateDate = 13;
+    string CreateProcessId = 14;
+    double Volume = 15;
+    double Profit = 16;
+    double SoPercent = 17;
+    optional double DesirePrice = 18;
+    double OpenPrice = 19;
+    TradingInfoBidAskModel OpenBidAsk = 20;
+    uint64 OpenDate = 21;
+}
+
+message PendingOrderGrpcModel{
+    string Id = 1;
+    string TraderId = 2;
+    string AccountId = 3;
+    string InstrumentId = 4;
+    double InvestAmount = 5;
+    double Leverage = 6;
+    uint64 CreateDate = 7;
+    PositionSide PositionSide = 8;
+    optional double TpInPositionPl = 9;
+    optional double TpInAssetPrice = 10;
+    optional double SlInPositionPl = 11;
+    optional double SlInAssetPrice = 12;
+    uint64 LastUpdateDate = 13;
+    string CreateProcessId = 14;
+    double Volume = 15;
+    double Profit = 16;
+    double SoPercent = 17;
+    optional double DesirePrice = 18;
+}
+
+message ClosedOrderGrpcModel{
+    string Id = 1;
+    string TraderId = 2;
+    string AccountId = 3;
+    string InstrumentId = 4;
+    double InvestAmount = 5;
+    double Leverage = 6;
+    uint64 CreateDate = 7;
+    PositionSide PositionSide = 8;
+    optional double TpInPositionPl = 9;
+    optional double TpInAssetPrice = 10;
+    optional double SlInPositionPl = 11;
+    optional double SlInAssetPrice = 12;
+    uint64 LastUpdateDate = 13;
+    string CreateProcessId = 14;
+    double Volume = 15;
+    double Profit = 16;
+    double SoPercent = 17;
+    optional double DesirePrice = 18;
+    double OpenPrice = 19;
+    TradingInfoBidAskModel OpenBidAsk = 20;
+    uint64 OpenDate = 21;
+    TradingInfoBidAskModel CloseBidAsk = 22;
+    double ClosePrice = 23;
+    uint64 CloseDate = 24;
+    PositionCloseReason CloseReason = 25;
+}
+
+
+service TradingInfoIntegrationGrpc {
+    rpc GetActiveOrders(GetActiveOrdersGrpcRequest) returns (stream ActiveOrderGrpcModel);
+    rpc GetPendingOrders(GetPendingOrdersGrpcRequest) returns (stream PendingOrderGrpcModel);
+    rpc GetHistoryPositions(GetHistoryGrpcRequest) returns (stream ClosedOrderGrpcModel);
+    rpc Ping(google.protobuf.Empty) returns(google.protobuf.Empty);
+}

@@ -1,0 +1,34 @@
+syntax = "proto3";
+package transaction_history_integration;
+import "google/protobuf/empty.proto";
+
+enum TransactionType{
+    Deposit = 0;
+    Withdrawal = 1;
+    BalanceCorrection = 2;
+    Trading = 3;
+    WithdrawalCancel = 4;
+    ToppingUp = 5;
+}
+
+message TransactionGrpcModel{
+    string Id = 1;
+    TransactionType TransactionType = 2;
+    optional string ProcessId = 3;
+    double BalanceDelta = 4;
+    uint64 Date = 5;
+    optional string ReferenceTransactionId = 6;
+    double BalanceAfterOperation = 7;
+}
+
+message GetTransactionHistoryGrpc{
+    string TraderId = 1;
+    string AccountId = 2;
+    uint64 DateFromUnixMicros = 3;
+    uint64 DateToUnixMicros = 4;
+}
+
+service TransactionHistoryIntegrationGrpcService {
+    rpc GetTransactionHistory(GetTransactionHistoryGrpc) returns (stream TransactionGrpcModel);
+    rpc Ping(google.protobuf.Empty) returns(google.protobuf.Empty);
+}
