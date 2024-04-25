@@ -36,9 +36,8 @@ message TradingInstrumentGrpcModel{
     uint32 Digits = 3;
     string Base = 4;
     string Quote = 5;
-    double TickSize = 6;
-    bool TradingDisabled = 7;
-    repeated TradingInstrumentDayOffGrpcModel TradingInstrumentDayOffs = 8;
+    bool TradingDisabled = 6;
+    repeated TradingInstrumentDayOffGrpcModel TradingInstrumentDayOffs = 7;
 }
 
 message SwapProfileGrpcModel{
@@ -54,7 +53,7 @@ message SwapProfileInstrumentGrpcModel{
 }
 
 message TradingInstrumentDayOffGrpcModel{
-    uint32 DayFrom = 1;
+    uint32 DayFrom = 1; 
     string TimeFrom = 2;
     uint32 DayTo = 3;
     string TimeTo = 4;
