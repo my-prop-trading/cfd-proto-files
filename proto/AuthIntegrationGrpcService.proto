@@ -4,10 +4,11 @@ import "google/protobuf/empty.proto";
 
 enum OperationResult{
     Ok = 0;
-    AccountNotFound = 1;
-    TraderNotFound = 2;
-    UserNameMustBeEmail = 3;
-    UserWithTheSameEmailExists = 4;
+    InvalidApiKey = 1;
+    AccountNotFound = 2;
+    TraderNotFound = 3;
+    UserNameMustBeEmail = 4;
+    TraderAlreadyExists = 5;
 }
 
 message GeneratePlatformRedirectUrlGrpcRequest{
@@ -34,8 +35,19 @@ message CreateOrUpdateTraderCredentialsResponse{
 }
 
 
+message UpdateTraderPasswordRequest{
+  string ApiKey = 1;
+  string TraderId = 2;
+  string NewPassword = 3;
+}
+
+message UpdateTraderPasswordResponse{
+  OperationResult Result = 1;
+}
+
 service AuthenticationIntegrationGrpcService {
-  rpc CreateOrUpdateTraderCredentials(CreateOrUpdateTraderCredentialsRequest) returns (CreateOrUpdateTraderCredentialsResponse);
+  rpc CreateTraderCredentials(CreateOrUpdateTraderCredentialsRequest) returns (CreateOrUpdateTraderCredentialsResponse);
+  rpc UpdateTraderPassword(UpdateTraderPasswordRequest) returns (UpdateTraderPasswordResponse);
   rpc GeneratePlatformRedirectUrl(GeneratePlatformRedirectUrlGrpcRequest) returns (GeneratePlatformRedirectUrlGrpcResponse);   
   rpc Ping(google.protobuf.Empty) returns(google.protobuf.Empty);
 }
