@@ -29,7 +29,19 @@ message GetTransactionHistoryGrpc{
     uint64 DateToUnixMicros = 5;
 }
 
+message GetTransactionHistoryEventRequest{
+    string ApiKey = 1;
+    string TraderId = 2;
+    string AccountId = 3;
+    string Id = 4;
+}
+
+message GetTransactionHistoryEventResponse{
+    optional TransactionGrpcModel Model = 1;
+}
+
 service TransactionHistoryIntegrationGrpcService {
     rpc GetTransactionHistory(GetTransactionHistoryGrpc) returns (stream TransactionGrpcModel);
+    rpc Get(GetTransactionHistoryEventRequest) returns (GetTransactionHistoryEventResponse);
     rpc Ping(google.protobuf.Empty) returns(google.protobuf.Empty);
 }
