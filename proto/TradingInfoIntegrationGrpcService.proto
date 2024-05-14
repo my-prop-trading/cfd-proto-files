@@ -136,6 +136,15 @@ message CloseActiveOrderRequest{
     PositionCloseReason CloseReason = 6;
 }
 
+message ForceCloseActiveOrderRequest{
+    string ApiKey = 1;
+    string TraderId = 2;
+    string AccountId = 3;
+    string Id = 4;
+    string ProcessId = 5;
+    PositionCloseReason CloseReason = 6;
+}
+
 message CloseActiveOrderResponse{
     TradingInfoGrpcStatus Status = 1;  
     optional string ErrorMessage = 2;  
@@ -167,13 +176,28 @@ message BidAskGrpcModel{
     double Ask = 4;
 }
 
+message GetActiveOrderGrpcRequest{
+    string ApiKey = 1;
+    string TraderId = 2;
+    string AccountId = 3;
+    string Id = 4;
+}
+
+message GetActiveOrderGrpcResponse{
+    optional ActiveOrderGrpcModel Order = 1;
+}
+
 service TradingInfoIntegrationGrpc {
     rpc GetActiveOrders(GetActiveOrdersGrpcRequest) returns (stream ActiveOrderGrpcModel);
     rpc GetPendingOrders(GetPendingOrdersGrpcRequest) returns (stream PendingOrderGrpcModel);
     rpc GetHistoryPositions(GetHistoryGrpcRequest) returns (stream ClosedOrderGrpcModel);
 
+    rpc GetActiveOrder(GetActiveOrderGrpcRequest) returns (GetActiveOrderGrpcResponse);
 
     rpc CloseActiveOrder(CloseActiveOrderRequest) returns (CloseActiveOrderResponse);
+
+    rpc ForceCloseActiveOrder(ForceCloseActiveOrderRequest) returns (CloseActiveOrderResponse);
+
     rpc CancelPendingOrder(CancelPendingOrderRequest) returns (CancelPendingOrderResponse);
 
     rpc GetBidAskSnapshot(GetBidAskSnapshotRequest) returns (stream BidAskGrpcModel);
