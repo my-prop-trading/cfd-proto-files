@@ -11,16 +11,15 @@ enum AccountsIntegrationOperationResult{
     InvalidTradingGroup = 5;
     InvalidCollateralCurrency = 6;
     InvalidLeverage = 7;
+    TradingGroupNotFound = 8;
+    TradingProfileNotFound = 9;
 }
 
 enum AccountsIntegrationUpdateAccountBalanceReason{
     BalanceCorrection = 0;
     Deposit = 1;
     Withdrawal = 2;
-    Dividends = 3;
-    Bonus = 4;
-    Credit = 5;
-    Voucher = 6;
+    WithdrawalCanceled = 3;
 }
 
 message AccountsIntegrationClientAccountGrpcModel{
@@ -86,8 +85,6 @@ message AccountsIntegrationUpdateAccountTradingDisabledGrpcRequest{
     string AccountId = 3;
     bool TradingDisabled = 4;
 }
-
-
 
 
 service CrossMarginAccountsIntegrationGrpcService {    
